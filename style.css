@@ -1,0 +1,451 @@
+/* ── CSS VARIABLES ────────────────────────────────────────────── */
+:root {
+  --bg: #F7F6F2;
+  --fg: #2C2C2C;
+  --fg-muted: #7A7A72;
+  --accent: #D95F3B;
+  --border: rgba(44, 44, 44, 0.18);
+  --border-solid: #2C2C2C;
+  --memo-bg: #EEECEA;
+  --box-shadow: 0 4px 24px rgba(0,0,0,0.07), 0 1px 4px rgba(0,0,0,0.05);
+  --radius: 16px;
+  --timer-font: 'Bebas Neue', cursive;
+  --korean-font: 'Noto Sans KR', sans-serif;
+  --transition-speed: 0.65s;
+}
+
+body.night {
+  --bg: #0A0A0A;
+  --fg: #EDE8DF;
+  --fg-muted: #9A9186;
+  --accent: #E8845A;
+  --border: rgba(237, 232, 223, 0.2);
+  --border-solid: #EDE8DF;
+  --memo-bg: #111110;
+  --box-shadow: 0 4px 32px rgba(0,0,0,0.6), 0 1px 6px rgba(0,0,0,0.4);
+}
+
+/* ── RESET & BASE ─────────────────────────────────────────────── */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: var(--korean-font);
+  background: var(--bg);
+  color: var(--fg);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background var(--transition-speed), color var(--transition-speed);
+  overflow: hidden;
+}
+
+/* ── CONFIG PAGE ─────────────────────────────────────────────── */
+#config-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 36px;
+  padding: 56px 40px;
+  width: 100%;
+  max-width: 620px;
+}
+
+.app-title {
+  font-family: var(--timer-font);
+  font-size: clamp(72px, 16vw, 120px);
+  letter-spacing: 6px;
+  color: var(--fg);
+  line-height: 1;
+  text-align: center;
+  font-weight: 400;
+}
+
+.app-title span {
+  color: var(--accent);
+}
+
+.inputs-row {
+  display: flex;
+  gap: 20px;
+  width: 100%;
+}
+
+.input-group {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.input-label {
+  font-family: var(--korean-font);
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  color: var(--fg-muted);
+}
+
+.stepper {
+  display: flex;
+  align-items: center;
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  background: var(--bg);
+  overflow: hidden;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.stepper:focus-within {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(217, 95, 59, 0.12);
+}
+
+/* ── DUAL STEPPER (분/초 나란히) ─────────────────────────────── */
+.dual-stepper {
+  display: flex;
+  align-items: stretch;
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  background: var(--bg);
+  overflow: hidden;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.dual-stepper:focus-within {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(217, 95, 59, 0.12);
+}
+
+.dual-unit {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.dual-sep {
+  display: flex;
+  align-items: center;
+  padding: 0 4px;
+  color: var(--fg-muted);
+  font-family: var(--timer-font);
+  font-size: 36px;
+  opacity: 0.4;
+  flex-shrink: 0;
+}
+
+.unit-badge {
+  position: absolute;
+  bottom: 6px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--korean-font);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--fg-muted);
+  opacity: 0.6;
+  pointer-events: none;
+  letter-spacing: 0.5px;
+}
+
+.stepper button,
+.dual-unit button {
+  width: 44px;
+  height: 72px;
+  border: none;
+  background: transparent;
+  color: var(--fg-muted);
+  font-family: var(--timer-font);
+  font-size: 28px;
+  cursor: pointer;
+  transition: color 0.15s, background 0.15s;
+  flex-shrink: 0;
+}
+
+.stepper button:hover,
+.dual-unit button:hover {
+  color: var(--accent);
+  background: rgba(217, 95, 59, 0.06);
+}
+
+.stepper input,
+.dual-unit input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  text-align: center;
+  font-family: var(--timer-font);
+  font-size: 42px;
+  color: var(--fg);
+  width: 100%;
+  min-width: 0;
+  outline: none;
+  padding-bottom: 16px;
+  -moz-appearance: textfield;
+}
+
+.stepper input::-webkit-outer-spin-button,
+.stepper input::-webkit-inner-spin-button,
+.dual-unit input::-webkit-outer-spin-button,
+.dual-unit input::-webkit-inner-spin-button { -webkit-appearance: none; }
+
+.start-btn {
+  width: 100%;
+  padding: 22px;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 16px;
+  font-family: var(--korean-font);
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s, filter 0.15s;
+  box-shadow: 0 4px 16px rgba(217, 95, 59, 0.3);
+}
+
+.start-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(217, 95, 59, 0.4);
+  filter: brightness(1.05);
+}
+
+.start-btn:active {
+  transform: translateY(1px);
+  box-shadow: 0 2px 8px rgba(217, 95, 59, 0.25);
+}
+
+.last-config-note {
+  font-family: var(--korean-font);
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--fg-muted);
+  letter-spacing: 0.3px;
+}
+
+/* ── TIMER PAGE ──────────────────────────────────────────────── */
+#timer-page {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100vh;
+  padding: 24px;
+  gap: 14px;
+}
+
+.phase-badge {
+  font-family: var(--korean-font);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  margin-bottom: -4px;
+}
+
+.timer-box {
+  width: min(82vw, 800px);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--box-shadow);
+  background: var(--bg);
+  padding: 28px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  flex-shrink: 0;
+  transition: border-color var(--transition-speed), box-shadow var(--transition-speed), background var(--transition-speed);
+}
+
+#timer-display {
+  font-family: var(--timer-font);
+  font-size: clamp(80px, 18vw, 160px);
+  line-height: 1;
+  color: var(--fg);
+  transition: color var(--transition-speed);
+  letter-spacing: 4px;
+}
+
+#phase-label {
+  font-family: var(--korean-font);
+  font-size: clamp(16px, 3.5vw, 24px);
+  font-weight: 500;
+  letter-spacing: 1px;
+  color: var(--fg);
+  opacity: 1;
+  transition: color var(--transition-speed);
+}
+
+.memo-box {
+  width: min(82vw, 800px);
+  height: min(38vh, 320px);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--box-shadow);
+  background: var(--memo-bg);
+  padding: 20px;
+  position: relative;
+  flex-shrink: 0;
+  overflow: hidden;
+  transition: border-color var(--transition-speed), box-shadow var(--transition-speed), background var(--transition-speed);
+}
+
+#memo-textarea {
+  width: 100%;
+  height: 100%;
+  border: none;
+  background: transparent;
+  resize: none;
+  outline: none;
+  font-family: var(--korean-font);
+  font-weight: 500;
+  font-size: 48px;
+  line-height: 1.4;
+  color: var(--fg);
+  overflow: hidden;
+  transition: color var(--transition-speed), font-size 0.04s;
+  word-break: break-word;
+  white-space: pre-wrap;
+}
+
+#memo-textarea::placeholder {
+  color: var(--fg-muted);
+  font-weight: 300;
+  font-size: 20px;
+}
+
+.timer-controls {
+  display: flex;
+  gap: 10px;
+}
+
+.ctrl-btn {
+  padding: 8px 20px;
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  background: transparent;
+  color: var(--fg-muted);
+  font-family: var(--korean-font);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s, background 0.15s;
+}
+
+.ctrl-btn:hover {
+  color: var(--fg);
+  border-color: var(--fg);
+  background: rgba(0,0,0,0.04);
+}
+
+/* ── END PAGE ────────────────────────────────────────────────── */
+#end-page {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 40px 24px;
+  text-align: center;
+}
+
+.end-line {
+  font-family: var(--korean-font);
+  font-size: clamp(36px, 9vw, 72px);
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  color: var(--fg);
+  opacity: 0;
+  animation: endLineFade 1s ease forwards;
+}
+
+@keyframes endLineFade {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.restart-btn {
+  margin-top: 24px;
+  padding: 14px 40px;
+  background: transparent;
+  color: var(--fg);
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  font-family: var(--korean-font);
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  cursor: pointer;
+  opacity: 0;
+  animation: endLineFade 0.8s ease 1.8s forwards;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+
+.restart-btn:hover {
+  background: var(--fg);
+  color: var(--bg);
+  border-color: var(--fg);
+}
+
+/* ── RED WARNING OVERLAY (phase 2 last 10s) ─────────────────── */
+#red-overlay {
+  position: fixed;
+  inset: 0;
+  background: #C0392B;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 10;
+  transition: opacity 1s ease;
+}
+
+#red-overlay.warn-1  { opacity: 0.06; }
+#red-overlay.warn-2  { opacity: 0.13; }
+#red-overlay.warn-3  { opacity: 0.20; }
+#red-overlay.warn-4  { opacity: 0.28; }
+#red-overlay.warn-5  { opacity: 0.36; }
+#red-overlay.warn-6  { opacity: 0.44; }
+#red-overlay.warn-7  { opacity: 0.52; }
+#red-overlay.warn-8  { opacity: 0.60; }
+#red-overlay.warn-9  { opacity: 0.70; }
+#red-overlay.warn-10 { opacity: 0.82; }
+
+/* ── OVERLAY ─────────────────────────────────────────────────── */
+#overlay {
+  position: fixed;
+  inset: 0;
+  background: #000;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 999;
+  transition: opacity 0.65s ease;
+}
+
+#overlay.fade-in { opacity: 1; pointer-events: all; }
+
+/* ── ANIMATIONS ─────────────────────────────────────────────── */
+.fade-enter {
+  animation: fadeSlideIn 0.5s ease both;
+}
+
+@keyframes fadeSlideIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── WAKE LOCK STATUS ────────────────────────────────────────── */
+#wakelock-status {
+  position: fixed;
+  bottom: 12px;
+  right: 16px;
+  font-family: var(--korean-font);
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 1px;
+  color: var(--fg-muted);
+  opacity: 0.5;
+}

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Timeclocker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Config Page -->
+  <div id="config-page" class="fade-enter">
+    <div class="app-title">TIME<span>CLOCK</span>ER</div>
+
+    <div class="inputs-row">
+
+      <!-- 쉬는 시간 -->
+      <div class="input-group">
+        <div class="input-label">🌙 쉬는 시간</div>
+        <div class="dual-stepper">
+          <div class="dual-unit">
+            <button onclick="stepDual('rest','min',-1)">−</button>
+            <input type="number" id="rest-min" value="10" min="0" max="60">
+            <span class="unit-badge">분</span>
+            <button onclick="stepDual('rest','min',1)">+</button>
+          </div>
+          <div class="dual-sep">:</div>
+          <div class="dual-unit">
+            <button onclick="stepDual('rest','sec',-1)">−</button>
+            <input type="number" id="rest-sec" value="0" min="0" max="59">
+            <span class="unit-badge">초</span>
+            <button onclick="stepDual('rest','sec',1)">+</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 준비 시간 -->
+      <div class="input-group">
+        <div class="input-label">⚡ 준비 시간</div>
+        <div class="dual-stepper">
+          <div class="dual-unit">
+            <button onclick="stepDual('prep','min',-1)">−</button>
+            <input type="number" id="prep-min" value="1" min="0" max="60">
+            <span class="unit-badge">분</span>
+            <button onclick="stepDual('prep','min',1)">+</button>
+          </div>
+          <div class="dual-sep">:</div>
+          <div class="dual-unit">
+            <button onclick="stepDual('prep','sec',-1)">−</button>
+            <input type="number" id="prep-sec" value="0" min="0" max="59">
+            <span class="unit-badge">초</span>
+            <button onclick="stepDual('prep','sec',1)">+</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <button class="start-btn" onclick="startTimer()">시작하기</button>
+    <div class="last-config-note" id="last-config-note"></div>
+  </div>
+
+  <!-- Timer Page -->
+  <div id="timer-page">
+    <div class="phase-badge" id="phase-badge">PHASE 1 / 2</div>
+    <div class="timer-box" id="timer-box">
+      <div id="timer-display">10:00</div>
+      <div id="phase-label">쉬는 시간</div>
+    </div>
+    <div class="memo-box">
+      <textarea id="memo-textarea" placeholder="여기에 메모를 입력하세요…" spellcheck="false"></textarea>
+    </div>
+    <div class="timer-controls">
+      <button class="ctrl-btn" onclick="goToConfig()">✕ 취소</button>
+    </div>
+  </div>
+
+  <!-- End Page -->
+  <div id="end-page">
+    <div class="end-line" id="end-line-1">눈 감으세요</div>
+    <div class="end-line" id="end-line-2" style="animation-delay:0.9s">복식 호흡 시작</div>
+    <button class="restart-btn" onclick="restartApp()">다시하기</button>
+  </div>
+
+  <!-- Red warning overlay (phase 2 last 10s) -->
+  <div id="red-overlay"></div>
+
+  <!-- Transition overlay -->
+  <div id="overlay"></div>
+
+  <!-- Wake lock status -->
+  <div id="wakelock-status"></div>
+
+<script src="app.js"></script>
+</body>
+</html>
